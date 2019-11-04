@@ -3,14 +3,21 @@ import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 
 const NoteApp = () => {
-  const storedNotes = JSON.parse(window.localStorage.getItem("notes"));
-  const [notes, setNotes] = useState(storedNotes || []);
+  const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
   useEffect(() => {
+    const storedNotes = JSON.parse(window.localStorage.getItem("notes"));
+
+    if (storedNotes) {
+      setNotes(storedNotes);
+    }
+  }, []);
+
+  useEffect(() => {
     window.localStorage.setItem("notes", JSON.stringify(notes));
-  });
+  }, [notes]);
 
   const addNote = event => {
     event.preventDefault();
@@ -59,18 +66,22 @@ const NoteApp = () => {
 //   const [text, setText] = useState("");
 
 //   useEffect(() => {
+//     console.log("This should only run once - as in componentDidMount");
+//   }, []);
+
+//   useEffect(() => {
 //     console.log("useEffect ran");
 //     document.title = count;
-//   });
+//   }, [count]);
 
 //   return (
 //     <div>
 //       <p>
 //         the current {text || "count"} is {count}
 //       </p>
-//       <button onClick={() => setCount(count + 1)}>+1</button>
-//       <button onClick={() => setCount(0)}>reset</button>
 //       <button onClick={() => setCount(count - 1)}>-1</button>
+//       <button onClick={() => setCount(0)}>reset</button>
+//       <button onClick={() => setCount(count + 1)}>+1</button>
 //       <input
 //         type="text"
 //         value={text}
