@@ -19,16 +19,12 @@ const NoteApp = () => {
     window.localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
-  const removeNote = title => {
-    dispatch({ type: "REMOVE_NOTE", title });
-  };
-
   return (
-    <div>
+    <NotesContext.Provider value={{ notes, dispatch }}>
       <h1>Notes</h1>
-      <NoteList notes={notes} removeNote={removeNote} />
-      <AddNoteForm dispatch={dispatch} />
-    </div>
+      <NoteList />
+      <AddNoteForm />
+    </NotesContext.Provider>
   );
 };
 
